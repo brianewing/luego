@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "luego"
   gem.require_paths = ["lib"]
   gem.version       = Luego::VERSION
+
+  gem.add_development_dependency 'rspec'
 end
