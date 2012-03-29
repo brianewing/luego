@@ -1,29 +1,24 @@
-# Luego
+Luego
+=====
 
-TODO: Write a gem description
+A simple gem to bring the wonder of Io futures to Ruby.
 
-## Installation
+Usage
+-----
 
-Add this line to your application's Gemfile:
+*TODO*
 
-    gem 'luego'
+Running the tests
+-----------------
 
-And then execute:
+Clone the repository, run `bundle`, then `rspec spec`.
+You should see greens greener than green grass from Greenland.
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install luego
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
+Contributing
+------------
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+5. Send a pull request
