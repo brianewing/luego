@@ -7,3 +7,4 @@ rvm:
   - ruby-head
   - jruby-head
   - ree
+script: rspec spec
