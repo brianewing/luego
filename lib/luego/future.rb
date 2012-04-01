@@ -7,7 +7,6 @@ module Luego
 
     def initialize(thread = nil, &block)
       @thread = thread || ::Thread.new(&block)
-      @thread.run
     end
 
     def method_missing(*args, &block)
