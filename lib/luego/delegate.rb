@@ -1,5 +1,5 @@
 module Luego
-  class Delegate < BasicObject
+  class Delegate < ::BasicObject
     def initialize(object)
       @child = object
     end
