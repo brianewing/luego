@@ -1,4 +1,4 @@
-Luego
+Luego ![Build status](https://secure.travis-ci.org/brianewing/luego.png?branch=master)
 =====
 
 A simple gem to bring the wonder of Io Futures to Ruby.
