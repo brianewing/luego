@@ -11,6 +11,6 @@ describe "Kernel#future" do
 
   it "should work like using Luego::Future.new" do
     future { 5 }.should == 5
-    future { sleep 5 }.should_not be_ready
+    future { sleep 5 }.ready?.should == false
   end
 end

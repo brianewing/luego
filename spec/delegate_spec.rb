@@ -15,13 +15,13 @@ describe Luego::Delegate do
 
   it "should offer its own methods for handling the delegation" do
     d = Luego::Delegate.new(nil)
-    d.should_not be_delegating
+    d.delegating?.should == false
 
     d.delegate!
-    d.should be_delegating
+    d.delegating?.should == true
 
     d.undelegate!
-    d.should_not be_delegating
+    d.delegating?.should == false
   end
 
   it "should stop delegating when undelegate! is called" do
