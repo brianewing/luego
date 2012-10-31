@@ -7,7 +7,7 @@ describe Luego::Delegate do
 
   it "should not delegate methods until delegate! is called" do
     string = Luego::Delegate.new("hello world")
-    Proc.new { string.upcase }.should raise_error NoMethodError
+    lambda { string.upcase }.should raise_error NoMethodError
 
     string.delegate!
     string.upcase.should == "HELLO WORLD"
@@ -15,13 +15,13 @@ describe Luego::Delegate do
 
   it "should offer its own methods for handling the delegation" do
     d = Luego::Delegate.new(nil)
-    d.delegating?.should == false
-    
+    d.should_not be_delegating
+
     d.delegate!
-    d.delegating?.should == true
+    d.should be_delegating
 
     d.undelegate!
-    d.delegating?.should == false
+    d.should_not be_delegating
   end
 
   it "should stop delegating when undelegate! is called" do

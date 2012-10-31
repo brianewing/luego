@@ -5,12 +5,12 @@ module Luego
     end
 
     def send(*args, &block)
-      return super unless delegating?
+      return super if not delegating?
       @child.send *args, &block
     end
 
     def method_missing(*args, &block)
-      return super unless delegating?
+      return super if not delegating?
       send *args, &block
     end
 

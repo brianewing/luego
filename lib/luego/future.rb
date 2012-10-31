@@ -13,7 +13,7 @@ module Luego
       await!
       super
     end
-    
+
     def await!
       return @child unless @child.nil?
 
