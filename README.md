@@ -3,13 +3,25 @@ Luego ![Build status](https://secure.travis-ci.org/brianewing/luego.png?branch=m
 
 A simple gem to bring the wonder of Io Futures to Ruby.
 
+Futures are objects, created with a(n expensive) block, that can be passed around freely and only block at the point that they're used.
+
+```ruby
+thing = future { fetch_thing_from_slow_api }
+```
+
+`thing` is now just an object that can be passed around. It will 'become' the result as soon as it's used, or your block returns - whichever comes first.
+
+In practice, you could use futures for things like IO, while passing it around like it's the end result you want.
+**The rest of your stack can get on with doing its thing until the result is actually needed/used.**
+
 Usage
 -----
 
 ```ruby
+require 'luego/kernel'
 thing = "hello!"
 
-string = Luego::Future.new do
+string = future do
   sleep 5
   thing
 end
@@ -17,10 +29,10 @@ end
 string.upcase! # 5 seconds pass, then => "HELLO!"
 string === thing # true
 
-future = Luego::Future.new &some_block
-future.ready? # => false until the block, in a new thread, returns
+aye = future &some_block
+aye.ready? # => false until the block, in a new thread, returns
 
-future.await! # => return value of the block, waits for the thread to join
+aye.await! # => return value of the block, waits for the thread to join
 ```
 
 But wait, there's more!
