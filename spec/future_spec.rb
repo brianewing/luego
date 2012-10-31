@@ -8,10 +8,12 @@ describe Luego::Future do
   end
 
   it "shouldn't be ready until its block returns" do
-    future = Luego::Future.new { sleep 0.1 }
+    thread = Thread.new { sleep 0.05 }
+
+    future = Luego::Future.new(thread)
     future.should_not be_ready
 
-    sleep 0.2
+    thread.join
     future.should be_ready
   end
 
