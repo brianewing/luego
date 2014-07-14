@@ -1,54 +1,59 @@
 Luego ![Build status](https://secure.travis-ci.org/brianewing/luego.png?branch=master)
 =====
 
-A simple gem to bring the wonder of Io Futures to Ruby.
+Futures are objects which allow you to pass around the result of an asynchronous operation as if it had returned immediately.
 
-Futures are objects, created with a(n expensive) block, that can be passed around freely and only block at the point that they're used.
+You pass a block to run in a new thread, and you'll get back an object which will delegate completely to the value returned from the thread.
+
+If you try and call any methods before the thread has returned, it will block until the thread has returned before sending the message along.
+
+Luego takes care to make the delegation 100% transparent, without even methods from BasicObject.
 
 ```ruby
-thing = future { fetch_thing_from_slow_api }
+value = future { API.slow_method(timeout: 10.seconds) }
 ```
 
-`thing` is now just an object that can be passed around. It will 'become' the result as soon as it's used, or your block returns - whichever comes first.
+You can pass `value` around and your app can get on with doing its thing until the result is actually needed or used.
 
-In practice, you could use futures for things like IO, while passing it around like it's the end result you want.
-**The rest of your stack can get on with doing its thing until the result is actually needed/used.**
+You could use futures for things like IO, passing the result around without having to block upfront or pass knowledge of the asynchronicity down the stack.
 
 Usage
 -----
 
 ```ruby
-require 'luego/kernel'
-thing = "hello!"
+require 'luego/kernel' # defines methods in Kernel
 
-string = future do
+msg = "hello!"
+
+result = future do
   sleep 5
-  thing
+  msg
 end
 
-string.upcase! # 5 seconds pass, then => "HELLO!"
-string === thing # true
+result.upcase! # 5 seconds pass, then "HELLO!" is returned
+result === msg # true
 
-aye = future &some_block
-aye.ready? # => false until the block, in a new thread, returns
+result = future &some_block
 
-aye.await! # => return value of the block, waits for the thread to join
+result.ready? # returns false until the block, run in a new thread, returns
+result.await! # joins the thread, returns the value
 ```
 
 But wait, there's more!
 --
 
-Luego also provides `Luego::Delegate`, which is a 100% transparent proxy for objects, toggleable with `delegate!` and `undelegate!` instance methods.
+Luego also provides `Luego::Delegate`, an object which proxies completely to another, with even methods from BasicObject delegated for complete transparency.
 
-This is how Luego::Future 'becomes' the object as in Io - it simply starts delegating.
+It can be toggled on and off with `#delegate!` and `#undelegate!`.
 
-See the [specs](http://github.com/brianewing/luego/tree/master/spec/delegate_spec.rb) for an idea of how transparent the delegation is.
+This is how Luego::Future 'becomes' the object like in Io - it simply starts delegating.
+
+See the [specs](http://github.com/brianewing/luego/tree/master/spec/delegate_spec.rb).
 
 Running the tests
 -----------------
 
 Clone the repository, `bundle`, `rspec spec`.
-You should see greens greener than green grass from Greenland.
 
 Contributing
 ------------
